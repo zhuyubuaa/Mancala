@@ -5,7 +5,8 @@ pub fn bocchi_shut_up(flag: i32, seq: &[i32], size: i32) -> i32 {
     let mut table = [0; 7];
     for el in seq {
         if el / 10 == flag {
-            table[el % 10] = table[el % 10] + 1;
+            let index : usize = (el % 10).try_into().unwrap();
+            table[index] = table[index] + 1;
         }
     }
 
