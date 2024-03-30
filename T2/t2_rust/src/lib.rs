@@ -12,6 +12,9 @@ pub fn player_move(op: i32,player: i32,list: &mut [i32]) -> i32 {
         choice = choice + 6;
     }
     let mut rest = list[choice as usize];
+    if rest == 0 {
+        return -1;
+    }
     list[choice as usize] = 0;
     while rest != 0 {
         choice = choice + 1;
@@ -39,7 +42,7 @@ pub fn calculate_next(last: i32,player: i32,list: &mut [i32]) -> i32 {
         }
     } else {
         if last == 13 {
-            ought = 1;
+            ought = 2;
         } else {
             if last >= 7 && last <= 12 && list[last as usize] == 1 && list[(12 - last) as usize] != 0 {
                 list[13] = list[13] + list[last as usize] + list[(12 - last) as usize];
@@ -70,7 +73,10 @@ pub fn mancala_result(flag: i32, seq: &[i32], size: i32) -> i32 {
         if ought != player {
             return 30000 + index;
         } 
-        let last = player_move(*op,player,&mut list);
+        let last = player_move(*op, player, &mut list);
+        if last  == -1 {
+            return 30000 + index;
+        }
         ought = calculate_next(last,player,&mut list);
     }
     let sum1: i32 = list[0..6].iter().sum();
