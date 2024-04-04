@@ -65,6 +65,7 @@ pub fn calculate_next(last: i32, player: i32, list: &mut [i32]) -> i32 {
     return ought;
 }
 
+#[wasm_bindgen]
 pub fn cal_score(flag: i32, status: &[i32], step: i32, origin_flag: i32) -> i32{
     let point_hole;
     if origin_flag == 1 {
@@ -145,8 +146,6 @@ pub fn prior(flag: i32, status: &[i32]) -> i32{
     } else {
         end = 12;
     }
-    let pick : i32;
-
     // 2 priorior strategies --  continue moving(1), eat(2); else choose best from holes with most.
     for i in 0..6 {
         let hole = end - i;
@@ -166,7 +165,7 @@ pub fn prior(flag: i32, status: &[i32]) -> i32{
 }
 
 #[wasm_bindgen]
-pub fn mancala_operater(flag: i32, status: &[i32]) -> i32 {
+pub fn mancala_operator(flag: i32, status: &[i32]) -> i32 {
     // let end;
     // if flag == 1 {
     //     end = 5;
@@ -209,12 +208,11 @@ pub fn mancala_operater(flag: i32, status: &[i32]) -> i32 {
     // } else if most_holes.len() > 1 {
         // return search(flag, status);
 
-    let hole:i32 = prior(flag,status);
+    let mut hole:i32 = prior(flag,status);
     if hole == -1 {
-        return search(flag, status, 12);
-    } else {
-        return hole;
+        hole = search(flag, status, 12);
     }
+    return flag * 10 + hole + 1 - 7 * (flag - 1);
     // }
 }
 
@@ -224,6 +222,6 @@ mod tests {
 
     #[test]
     fn testone() {
-        println!("{}", mancala_operater(2, &[0,5,1,6,6,0,2,5,0,6,6,6,5,1]));
+        // println!("{}", mancala_operater(2, &[0,5,1,6,6,0,2,5,0,6,6,6,5,1]));
     }
 }

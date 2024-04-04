@@ -64,7 +64,7 @@ pub fn mancala_board(flag: i32, seq: &[i32], size: i32) -> Int32Array {
     for op in seq {
         index = index + 1;
         let player = op / 10;
-        if (index == size - 1) && !((ought == flag) && (ought == player)){
+        if (size != 1) && (index == size - 1) && !((ought == flag) && (ought == player)){
             // error
             for i in 0..14{
                 Int32Array::set_index(&result_board, i, list[i as usize]);
